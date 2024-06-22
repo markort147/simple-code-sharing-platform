@@ -1,6 +1,5 @@
-package platform.controllers;
+package com.markort147.codesharingplatform.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import platform.models.Snippet;
-import platform.services.SnippetService;
+import com.markort147.codesharingplatform.models.Snippet;
+import com.markort147.codesharingplatform.services.SnippetService;
 
 import java.io.IOException;
 import java.io.StringWriter;

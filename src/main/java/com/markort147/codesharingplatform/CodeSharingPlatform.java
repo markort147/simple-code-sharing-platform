@@ -1,4 +1,4 @@
-package platform;
+package com.markort147.codesharingplatform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

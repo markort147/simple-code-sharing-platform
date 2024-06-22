@@ -1,9 +1,9 @@
-package platform.repositories;
+package com.markort147.codesharingplatform.repositories;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import platform.models.Snippet;
+import com.markort147.codesharingplatform.models.Snippet;
 
 import java.util.List;
 

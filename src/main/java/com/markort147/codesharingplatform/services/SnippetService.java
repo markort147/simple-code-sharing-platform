@@ -1,11 +1,11 @@
-package platform.services;
+package com.markort147.codesharingplatform.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import platform.dtos.NewSnippetDto;
-import platform.models.Snippet;
-import platform.repositories.SnippetsRepository;
+import com.markort147.codesharingplatform.dtos.NewSnippetDto;
+import com.markort147.codesharingplatform.models.Snippet;
+import com.markort147.codesharingplatform.repositories.SnippetsRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

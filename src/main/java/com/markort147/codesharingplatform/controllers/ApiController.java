@@ -1,14 +1,14 @@
-package platform.controllers;
+package com.markort147.codesharingplatform.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import platform.dtos.AddedSnippetDto;
-import platform.dtos.NewSnippetDto;
-import platform.models.Snippet;
-import platform.services.SnippetService;
+import com.markort147.codesharingplatform.dtos.AddedSnippetDto;
+import com.markort147.codesharingplatform.dtos.NewSnippetDto;
+import com.markort147.codesharingplatform.models.Snippet;
+import com.markort147.codesharingplatform.services.SnippetService;
 
 import java.util.List;
 import java.util.Optional;

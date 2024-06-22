@@ -1,4 +1,4 @@
-package platform.models;
+package com.markort147.codesharingplatform.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
