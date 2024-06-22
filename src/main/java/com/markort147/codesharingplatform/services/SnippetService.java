@@ -1,21 +1,20 @@
 package com.markort147.codesharingplatform.services;
 
+import com.markort147.codesharingplatform.models.Snippet;
+import com.markort147.codesharingplatform.repositories.SnippetsRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import com.markort147.codesharingplatform.dtos.NewSnippetDto;
-import com.markort147.codesharingplatform.models.Snippet;
-import com.markort147.codesharingplatform.repositories.SnippetsRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Service
+@Log
 public class SnippetService {
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final SnippetsRepository snippetsRepository;
 
     @Autowired
@@ -48,20 +47,7 @@ public class SnippetService {
         return false;
     }
 
-    public String addSnippetByCode(NewSnippetDto inputSnippet) {
-        Snippet snippet = mapNewSnippetToSnippet(inputSnippet);
-        String id = snippetsRepository.save(snippet).getId();
-        snippet.setId(id);
-        logger.info("Snippet added: " + snippet);
-
-        return id;
-    }
-
-    public List<Snippet> getLastUpdatedSnippets() {
-        return snippetsRepository.findNotRestricted(PageRequest.of(0, 10));
-    }
-
-    private Snippet mapNewSnippetToSnippet(NewSnippetDto inputSnippet) {
+    private static Snippet buildSnippetFromNewSnippetDto(NewSnippetDto inputSnippet) {
         Snippet snippet = new Snippet();
         snippet.setCode(inputSnippet.code());
         snippet.setDate(LocalDateTime.now());
@@ -70,4 +56,29 @@ public class SnippetService {
         return snippet;
     }
 
+    public List<Snippet> getLastUpdatedSnippets() {
+        return snippetsRepository.findNotRestricted(PageRequest.of(0, 10));
+    }
+
+    private static SavedSnippetDto buildSavedSnippetDtoFromSnippet(Snippet snippet) {
+        return new SavedSnippetDto(snippet.getId());
+    }
+
+    public SavedSnippetDto addSnippetByCode(NewSnippetDto newSnippetDto) {
+        Snippet snippet = buildSnippetFromNewSnippetDto(newSnippetDto);
+        snippet = snippetsRepository.save(snippet);
+        log.info("Snippet added: %s".formatted(snippet));
+
+        return buildSavedSnippetDtoFromSnippet(snippet);
+    }
+
+    public record NewSnippetDto(
+            String code,
+            Long time,
+            Integer views
+    ) {
+    }
+
+    public record SavedSnippetDto(String id) {
+    }
 }

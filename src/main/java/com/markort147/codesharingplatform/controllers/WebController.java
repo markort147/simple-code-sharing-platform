@@ -23,9 +23,9 @@ import java.util.Optional;
 @Controller
 public class WebController {
 
+    private static final HttpHeaders HEADERS = new HttpHeaders();
     private final FreeMarkerConfigurer freeMarkerConfigurer;
     private final SnippetService snippetService;
-    private static final HttpHeaders HEADERS = new HttpHeaders();
 
     static {
         HEADERS.setContentType(MediaType.TEXT_HTML);
