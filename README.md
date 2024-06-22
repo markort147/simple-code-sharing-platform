@@ -17,8 +17,8 @@ This project is a web application built with Java and Spring Framework that prov
 ## Getting Started
 
 ### Prerequisites
-- Java 11 or higher
-- Gradle 7 or higher
+- Java 21 or higher
+- Gradle 8 or higher
 
 ### Clone the Repository
 
