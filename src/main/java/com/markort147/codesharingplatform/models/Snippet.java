@@ -3,13 +3,13 @@ package com.markort147.codesharingplatform.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,16 +18,12 @@ import java.util.Objects;
 @Setter
 @Getter
 @Entity
-public class Snippet implements Comparable<Snippet>, Cloneable {
-    private final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+public class Snippet implements Comparable<Snippet> {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @JsonIgnore
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String code;
     private LocalDateTime date;
@@ -52,11 +48,8 @@ public class Snippet implements Comparable<Snippet>, Cloneable {
         this.expiration = LocalDateTime.now().plusSeconds(time);
     }
 
-//    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("time")
     public long getTimeAsLong() {
-//        long time = Duration.between(LocalDateTime.now(), expiration).toSeconds();
-//        return time > 0 ? time : null;
         return isTimeRestricted ? Math.max(Duration.between(LocalDateTime.now(), expiration).toSeconds(), 0) : time;
     }
 
@@ -69,7 +62,6 @@ public class Snippet implements Comparable<Snippet>, Cloneable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("views")
     public int getViews() {
-//        return views > 0 ? views : null;
         return views;
     }
 

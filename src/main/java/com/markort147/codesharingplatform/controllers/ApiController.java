@@ -1,14 +1,14 @@
 package com.markort147.codesharingplatform.controllers;
 
+import com.markort147.codesharingplatform.dtos.AddedSnippetDto;
+import com.markort147.codesharingplatform.dtos.NewSnippetDto;
+import com.markort147.codesharingplatform.models.Snippet;
+import com.markort147.codesharingplatform.services.SnippetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.markort147.codesharingplatform.dtos.AddedSnippetDto;
-import com.markort147.codesharingplatform.dtos.NewSnippetDto;
-import com.markort147.codesharingplatform.models.Snippet;
-import com.markort147.codesharingplatform.services.SnippetService;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,10 +21,9 @@ public class ApiController {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     private final SnippetService snippetService;
-    private final static HttpHeaders HEADERS;
+    private static final HttpHeaders HEADERS = new HttpHeaders();
 
     static {
-        HEADERS = new HttpHeaders();
         HEADERS.setContentType(MediaType.APPLICATION_JSON);
     }
 
@@ -34,19 +33,19 @@ public class ApiController {
     }
 
     @GetMapping("/code/{id}")
-    public ResponseEntity<?> getCode(@PathVariable String id) {
-        logger.info("Getting code for Snippet with id: " + id);
+    public ResponseEntity<Snippet> getCode(@PathVariable String id) {
+        logger.info(() -> "Getting code for Snippet with id: %s".formatted(id));
         Optional<Snippet> snippet = snippetService.getSnippet(id);
         if (snippet.isPresent()) {
-            logger.info("Returning Snippet: " + snippet.get());
+            logger.info(() -> "Returning Snippet: %s".formatted(snippet.get()));
             return ResponseEntity.ok().headers(HEADERS).body(snippet.get());
         }
-        logger.info("Snippet not found");
+        logger.info(() -> "Snippet not found");
         return ResponseEntity.notFound().headers(HEADERS).build();
     }
 
     @GetMapping("/code/latest")
-    public ResponseEntity<?> getCode() {
+    public ResponseEntity<List<Snippet>> getCode() {
         List<Snippet> snippets = snippetService.getLastUpdatedSnippets();
         if (snippets.isEmpty()) {
             return ResponseEntity.notFound().headers(HEADERS).build();
@@ -56,7 +55,7 @@ public class ApiController {
 
     @PostMapping("/code/new")
     public ResponseEntity<AddedSnippetDto> postNewCode(@RequestBody NewSnippetDto inputSnippet) {
-        logger.info("Posting new Snippet: " + inputSnippet);
+        logger.info(() -> "Posting new Snippet: %s".formatted(inputSnippet));
         String id = snippetService.addSnippetByCode(inputSnippet);
         return ResponseEntity.ok().headers(HEADERS).body(new AddedSnippetDto(id));
     }

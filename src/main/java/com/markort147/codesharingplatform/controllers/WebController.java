@@ -1,5 +1,7 @@
 package com.markort147.codesharingplatform.controllers;
 
+import com.markort147.codesharingplatform.models.Snippet;
+import com.markort147.codesharingplatform.services.SnippetService;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import com.markort147.codesharingplatform.models.Snippet;
-import com.markort147.codesharingplatform.services.SnippetService;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -25,10 +25,9 @@ public class WebController {
 
     private final FreeMarkerConfigurer freeMarkerConfigurer;
     private final SnippetService snippetService;
-    private final static HttpHeaders HEADERS;
+    private static final HttpHeaders HEADERS = new HttpHeaders();
 
     static {
-        HEADERS = new HttpHeaders();
         HEADERS.setContentType(MediaType.TEXT_HTML);
     }
 
@@ -68,11 +67,8 @@ public class WebController {
 
     private ResponseEntity<String> buildResponseForGetCodeTemplate(String pageTitle, List<Snippet> snippets) throws IOException, TemplateException {
         Template template = freeMarkerConfigurer.getConfiguration().getTemplate("getCode.ftlh");
-//        ObjectMapper mapper = new ObjectMapper();
-//        String serializedSnippets = mapper.writeValueAsString(snippets);
         Map<String, Object> templateModel = Map.of(
                 "title", pageTitle,
-//                "snippets_as_json", serializedSnippets
                 "snippets", snippets.stream().map(snippet -> Map.of(
                         "code", snippet.getCode(),
                         "date", snippet.getDateAsString(),
