@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: simple-code-sharing-api
+  description: simple-code-sharing-api
+  version: 1.0.0
+servers:
+  - url: https://{base_url}:{port}/api
+    variables:
+      base_url:
+        default: localhost
+        description: this value is assigned by the server administrator
+      port:
+        default: '8889'
+        description: this value can be changed within application.properties
+paths:
+  /code/{id}:
+    get:
+      description: returns the code snippet identified by provided id
+      responses:
+        '200':
+          description: the code snippet is successfully found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCodeSnippet'
+        '404':
+          description: no code snippet match the provided id
+  /code/latest/:
+    get:
+      description: returns the most recent and public code snippet
+      responses:
+        '200':
+          description: a code snippet is successfully found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCodeSnippet'
+        '404':
+          description: there are no code snippets
+  /code/new:
+    post:
+      description: create new code snippet
+      requestBody:
+        $ref: '#/components/schemas/PostCodeSnippet'
+      responses:
+        '200':
+          description: code snippet succesfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+        '400':
+          description: bad request
+components:
+  schemas:
+    GetCodeSnippet:
+      type: object
+      properties:
+        code:
+          type: string
+        date:
+          type: string
+        views:
+          type: integer
+        time:
+          type: integer
+    PostCodeSnippet:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+        time:
+          type: integer
+        views:
+          type: integer
+
+
+
